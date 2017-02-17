@@ -3,7 +3,9 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.2'
+    classpath('com.android.tools.build:gradle:2.1.0') {
+      force = true
+    }
   }
 }
 
