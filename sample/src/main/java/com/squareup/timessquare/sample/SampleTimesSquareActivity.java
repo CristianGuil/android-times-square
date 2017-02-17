@@ -5,14 +5,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 import com.squareup.timessquare.CalendarCellDecorator;
 import com.squareup.timessquare.CalendarPickerView;
 import com.squareup.timessquare.CalendarPickerView.SelectionMode;
+import com.squareup.timessquare.CalendarRowView;
 import com.squareup.timessquare.DefaultDayViewAdapter;
 
 import java.util.ArrayList;
@@ -74,6 +77,7 @@ public class SampleTimesSquareActivity extends Activity {
         calendar.init(lastYear.getTime(), nextYear.getTime()) //
             .inMode(SelectionMode.SINGLE) //
             .withSelectedDate(new Date());
+
       }
     });
 
@@ -148,10 +152,11 @@ public class SampleTimesSquareActivity extends Activity {
         setButtonsEnabled(decorator);
 
         calendar.setCustomDayView(new DefaultDayViewAdapter());
-        calendar.setDecorators(Arrays.<CalendarCellDecorator>asList(new SampleDecorator()));
+
         calendar.init(lastYear.getTime(), nextYear.getTime()) //
-            .inMode(SelectionMode.SINGLE) //
-            .withSelectedDate(new Date());
+            .inMode(SelectionMode.RANGE);
+        calendar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        calendar.setDecorators(Arrays.<CalendarCellDecorator>asList(new SampleDecorator(getApplicationContext())));
       }
     });
 

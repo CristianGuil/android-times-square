@@ -16,12 +16,12 @@
     <color android:color="@color/calendar_inactive_month_bg"/>
   </item>
   <item app:tsquare_state_highlighted="true">
-    <color android:color="@android:color/white"/>
+    <color android:color="@android:color/holo_green_light"/>
   </item>
   <item app:tsquare_state_today="true">
     <color android:color="@color/calendar_text_active"/>
   </item>
   <item>
-    <color android:color="@android:color/white"/>
+    <color android:color="@android:color/holo_green_light"/>
   </item>
 </selector>

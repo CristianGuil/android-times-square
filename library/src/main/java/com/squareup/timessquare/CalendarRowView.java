@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,14 +19,47 @@ import static android.view.View.MeasureSpec.makeMeasureSpec;
 public class CalendarRowView extends ViewGroup implements View.OnClickListener {
   private boolean isHeaderRow;
   private MonthView.Listener listener;
+  private GestureDetector gestureDetector;
+  private View view;
 
   public CalendarRowView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
   @Override public void addView(View child, int index, ViewGroup.LayoutParams params) {
-    child.setOnClickListener(this);
+//    child.setOnClickListener(this);
+    gestureDetector = new GestureDetector(getContext(), new GestureListener());
     super.addView(child, index, params);
+
+    child.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+//                     DateTime dateTime = CaldroidFragment.dateInMonthsList.get(position);
+//
+//                       if (caldroidListener != null) {
+//                        if (!enableClickOnDisabledDates) {
+//                                if ((minDateTime != null && dateTime
+//                                              .lt(minDateTime))
+//                                          || (maxDateTime != null && dateTime
+//                                                  .gt(maxDateTime))
+//                                        || (disableDates != null && disableDates
+//                                                 .indexOf(dateTime) != -1)) {
+//                                        return gestureDetector.onTouchEvent(event);
+//                                   }
+//                            }
+//
+//                                 Date date = CalendarHelper
+//                                        .convertDateTimeToDate(dateTime);
+//
+//                                   CaldroidGridAdapter.this.date = date;
+//                          CaldroidGridAdapter.this.view = cellView;
+//                      }
+                      view = v;
+
+                     return gestureDetector.onTouchEvent(event);
+               }
+          });
   }
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -68,7 +103,8 @@ public class CalendarRowView extends ViewGroup implements View.OnClickListener {
     this.isHeaderRow = isHeaderRow;
   }
 
-  @Override public void onClick(View v) {
+  @Override
+  public void onClick(View v) {
     // Header rows don't have a click listener
     if (listener != null) {
       listener.handleClick((MonthCellDescriptor) v.getTag());
@@ -124,4 +160,27 @@ public class CalendarRowView extends ViewGroup implements View.OnClickListener {
       }
     }
   }
+
+  private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return true;
+     }
+
+      @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+//         caldroidListener.onSelectDate(date, view);
+          return true;
+           }
+
+          // event when double tap occurs
+          @Override
+          public boolean onDoubleTap(MotionEvent e) {
+            if (listener != null) {
+              listener.handleClick((MonthCellDescriptor) view.getTag());
+            }
+//            caldroidListener.onDoubleClickDate(date, view);
+            return true;
+          }
+     }
 }
