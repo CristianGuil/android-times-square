@@ -26,10 +26,19 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TimeZone;
 
 import static android.widget.Toast.LENGTH_SHORT;
+import static com.squareup.timessquare.CalendarPickerView.cells;
+import static com.squareup.timessquare.CalendarPickerView.selectedCals;
+import static com.squareup.timessquare.CalendarPickerView.selectedCells;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MILLISECOND;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.SECOND;
 
 public class SampleTimesSquareActivity extends Activity implements MonthView.Listener{
   private static final String TAG = "SampleTimesSquareActivi";
@@ -245,5 +254,61 @@ public class SampleTimesSquareActivity extends Activity implements MonthView.Lis
   @Override
   public void handleClick(MonthCellDescriptor cell) {
     Toast.makeText(getApplicationContext(), "oneClick", Toast.LENGTH_SHORT).show();
+
+    Calendar newlySelectedCal = Calendar.getInstance(TimeZone.getTimeZone(cell.getDate().toString()), Locale.getDefault());
+    newlySelectedCal.setTime(cell.getDate());
+    // Sanitize input: clear out the hours/minutes/seconds/millis.
+    newlySelectedCal.set(HOUR_OF_DAY, 0);
+    newlySelectedCal.set(MINUTE, 0);
+    newlySelectedCal.set(SECOND, 0);
+    newlySelectedCal.set(MILLISECOND, 0);
+
+    Date clickedDate = cell.getDate();
+
+    // Clear any remaining range state.
+    for (MonthCellDescriptor selectedCell : selectedCells) {
+      selectedCell.setRangeState(MonthCellDescriptor.RangeState.NONE);
+    }
+
+    if (selectedCals.size() > 1) {
+      // We've already got a range selected: clear the old one.
+      calendar.clearOldSelections();
+    } else if (selectedCals.size() == 1 && newlySelectedCal.before(selectedCals.get(0))) {
+      // We're moving the start of the range back in time: clear the old start date.
+      calendar.clearOldSelections();
+    }
+
+    if (cell.getDate() != null) {
+      // Select a new cell.
+      if (selectedCells.size() == 0 || !selectedCells.get(0).equals(cell)) {
+        selectedCells.add(cell);
+        cell.setSelected(true);
+      }
+      selectedCals.add(newlySelectedCal);
+
+      if (selectedCells.size() > 1) {
+        // Select all days in between start and end.
+        Date start = selectedCells.get(0).getDate();
+        Date end = selectedCells.get(1).getDate();
+        selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST);
+        selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.LAST);
+
+        for (List<List<MonthCellDescriptor>> month : cells) {
+          for (List<MonthCellDescriptor> week : month) {
+            for (MonthCellDescriptor singleCell : week) {
+              if (singleCell.getDate().after(start)
+                      && singleCell.getDate().before(end)
+                      && singleCell.isSelectable()) {
+                singleCell.setSelected(true);
+                singleCell.setRangeState(MonthCellDescriptor.RangeState.MIDDLE);
+                selectedCells.add(singleCell);
+              }
+            }
+          }
+        }
+      }
+    }
+    calendar.validateAndUpdate();
+//    boolean wasSelected = calendar.doSelectDate(clickedDate, cell);
   }
 }

@@ -62,13 +62,13 @@ public class CalendarPickerView extends ListView {
   }
 
   private final CalendarPickerView.MonthAdapter adapter;
-  private final List<List<List<MonthCellDescriptor>>> cells = new ArrayList<>();
+  public static final List<List<List<MonthCellDescriptor>>> cells = new ArrayList<>();
   final MonthView.Listener listener = new CellClickedListener();
   MonthView.Listener delegateClickListener = new CellClickedListener();
   final List<MonthDescriptor> months = new ArrayList<>();
-  final List<MonthCellDescriptor> selectedCells = new ArrayList<>();
+  public static final List<MonthCellDescriptor> selectedCells = new ArrayList<>();
   final List<MonthCellDescriptor> highlightedCells = new ArrayList<>();
-  final List<Calendar> selectedCals = new ArrayList<>();
+  public static final List<Calendar> selectedCals = new ArrayList<>();
   final List<Calendar> highlightedCals = new ArrayList<>();
   private Locale locale;
   private TimeZone timeZone;
@@ -393,7 +393,7 @@ public class CalendarPickerView extends ListView {
     }
   }
 
-  private void validateAndUpdate() {
+  public void validateAndUpdate() {
     if (getAdapter() == null) {
       setAdapter(adapter);
     }
@@ -680,7 +680,7 @@ public class CalendarPickerView extends ListView {
     return date != null;
   }
 
-  private void clearOldSelections() {
+  public void clearOldSelections() {
     for (MonthCellDescriptor selectedCell : selectedCells) {
       // De-select the currently-selected cell.
       selectedCell.setSelected(false);
