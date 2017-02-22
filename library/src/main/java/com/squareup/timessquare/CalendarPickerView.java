@@ -64,6 +64,7 @@ public class CalendarPickerView extends ListView {
   private final CalendarPickerView.MonthAdapter adapter;
   private final List<List<List<MonthCellDescriptor>>> cells = new ArrayList<>();
   final MonthView.Listener listener = new CellClickedListener();
+  MonthView.Listener delegateClickListener = new CellClickedListener();
   final List<MonthDescriptor> months = new ArrayList<>();
   final List<MonthCellDescriptor> selectedCells = new ArrayList<>();
   final List<MonthCellDescriptor> highlightedCells = new ArrayList<>();
@@ -270,6 +271,11 @@ public class CalendarPickerView extends ListView {
    * @param maxDate Latest selectable date, exclusive.  Must be later than {@code minDate}.
    */
   public FluentInitializer init(Date minDate, Date maxDate) {
+    return init(minDate, maxDate, TimeZone.getDefault(), Locale.getDefault());
+  }
+
+  public FluentInitializer init(Date minDate, Date maxDate, MonthView.Listener delegateClickListener) {
+    this.delegateClickListener = delegateClickListener;
     return init(minDate, maxDate, TimeZone.getDefault(), Locale.getDefault());
   }
 
@@ -548,26 +554,32 @@ public class CalendarPickerView extends ListView {
 
   private class CellClickedListener implements MonthView.Listener {
     @Override public void handleClick(MonthCellDescriptor cell) {
-      Date clickedDate = cell.getDate();
 
-      if (cellClickInterceptor != null && cellClickInterceptor.onCellClicked(clickedDate)) {
-        return;
-      }
-      if (!betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate)) {
-        if (invalidDateListener != null) {
-          invalidDateListener.onInvalidDateSelected(clickedDate);
-        }
-      } else {
-        boolean wasSelected = doSelectDate(clickedDate, cell);
+      delegateClickListener.handleClick(cell);
+    }
+    @Override public void handleDoubleClick(MonthCellDescriptor cell) {
 
-        if (dateListener != null) {
-          if (wasSelected) {
-            dateListener.onDateSelected(clickedDate);
-          } else {
-            dateListener.onDateUnselected(clickedDate);
-          }
-        }
-      }
+      delegateClickListener.handleDoubleClick(cell);
+//      Date clickedDate = cell.getDate();
+//
+//      if (cellClickInterceptor != null && cellClickInterceptor.onCellClicked(clickedDate)) {
+//        return;
+//      }
+//      if (!betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate)) {
+//        if (invalidDateListener != null) {
+//          invalidDateListener.onInvalidDateSelected(clickedDate);
+//        }
+//      } else {
+//        boolean wasSelected = doSelectDate(clickedDate, cell);
+//
+//        if (dateListener != null) {
+//          if (wasSelected) {
+//            dateListener.onDateSelected(clickedDate);
+//          } else {
+//            dateListener.onDateUnselected(clickedDate);
+//          }
+//        }
+//      }
     }
   }
 
@@ -623,7 +635,7 @@ public class CalendarPickerView extends ListView {
     }
   }
 
-  private boolean doSelectDate(Date date, MonthCellDescriptor cell) {
+  public boolean doSelectDate(Date date, MonthCellDescriptor cell) {
     Calendar newlySelectedCal = Calendar.getInstance(timeZone, locale);
     newlySelectedCal.setTime(date);
     // Sanitize input: clear out the hours/minutes/seconds/millis.

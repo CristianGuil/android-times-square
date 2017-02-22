@@ -17,6 +17,8 @@ import com.squareup.timessquare.CalendarPickerView;
 import com.squareup.timessquare.CalendarPickerView.SelectionMode;
 import com.squareup.timessquare.CalendarRowView;
 import com.squareup.timessquare.DefaultDayViewAdapter;
+import com.squareup.timessquare.MonthCellDescriptor;
+import com.squareup.timessquare.MonthView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +31,7 @@ import java.util.Set;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class SampleTimesSquareActivity extends Activity {
+public class SampleTimesSquareActivity extends Activity implements MonthView.Listener{
   private static final String TAG = "SampleTimesSquareActivi";
   private CalendarPickerView calendar;
   private AlertDialog theDialog;
@@ -47,7 +49,7 @@ public class SampleTimesSquareActivity extends Activity {
     lastYear.add(Calendar.YEAR, -1);
 
     calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-    calendar.init(lastYear.getTime(), nextYear.getTime()) //
+    calendar.init(lastYear.getTime(), nextYear.getTime(), this) //
         .inMode(SelectionMode.SINGLE) //
         .withSelectedDate(new Date());
 
@@ -111,7 +113,7 @@ public class SampleTimesSquareActivity extends Activity {
         today.add(Calendar.DATE, 5);
         dates.add(today.getTime());
         calendar.setDecorators(Collections.<CalendarCellDecorator>emptyList());
-        calendar.init(new Date(), nextYear.getTime()) //
+        calendar.init(new Date(), nextYear.getTime(), SampleTimesSquareActivity.this) //
             .inMode(SelectionMode.RANGE) //
             .withSelectedDates(dates);
       }
@@ -238,5 +240,19 @@ public class SampleTimesSquareActivity extends Activity {
         }
       });
     }
+  }
+
+  @Override
+  public void handleClick(MonthCellDescriptor cell) {
+    Toast.makeText(getApplicationContext(), "oneClick", Toast.LENGTH_SHORT).show();
+  }
+
+  @Override
+  public void handleDoubleClick(MonthCellDescriptor cell) {
+    Toast.makeText(getApplicationContext(), "doubleClick", Toast.LENGTH_SHORT).show();
+
+    Date clickedDate = cell.getDate();
+
+    boolean wasSelected = calendar.doSelectDate(clickedDate, cell);
   }
 }
