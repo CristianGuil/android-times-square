@@ -16,7 +16,7 @@ import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.makeMeasureSpec;
 
 /** TableRow that draws a divider between each cell. To be used with {@link CalendarGridView}. */
-public class CalendarRowView extends ViewGroup implements View.OnClickListener {
+public class CalendarRowView extends ViewGroup implements View.OnClickListener, View.OnLongClickListener {
   private boolean isHeaderRow;
   private MonthView.Listener listener;
 
@@ -75,6 +75,14 @@ public class CalendarRowView extends ViewGroup implements View.OnClickListener {
     if (listener != null) {
       listener.handleClick((MonthCellDescriptor) v.getTag());
     }
+  }
+
+  @Override
+  public boolean onLongClick(View v) {
+    if (listener != null) {
+      listener.handleLongClick((MonthCellDescriptor) v.getTag());
+    }
+    return true;
   }
 
   public void setListener(MonthView.Listener listener) {

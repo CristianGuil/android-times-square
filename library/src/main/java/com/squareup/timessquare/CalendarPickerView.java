@@ -557,9 +557,9 @@ public class CalendarPickerView extends ListView {
 
       delegateClickListener.handleClick(cell);
     }
-    @Override public void handleDoubleClick(MonthCellDescriptor cell) {
+    @Override public void handleLongClick(MonthCellDescriptor cell) {
 
-      delegateClickListener.handleDoubleClick(cell);
+      delegateClickListener.handleLongClick(cell);
 //      Date clickedDate = cell.getDate();
 //
 //      if (cellClickInterceptor != null && cellClickInterceptor.onCellClicked(clickedDate)) {
