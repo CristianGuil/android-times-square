@@ -26,6 +26,7 @@ public class CalendarRowView extends ViewGroup implements View.OnClickListener, 
 
   @Override public void addView(View child, int index, ViewGroup.LayoutParams params) {
     child.setOnClickListener(this);
+    child.setOnLongClickListener(this);
     super.addView(child, index, params);
   }
 
@@ -82,7 +83,7 @@ public class CalendarRowView extends ViewGroup implements View.OnClickListener, 
     if (listener != null) {
       listener.handleLongClick((MonthCellDescriptor) v.getTag());
     }
-    return true;
+    return false;
   }
 
   public void setListener(MonthView.Listener listener) {
