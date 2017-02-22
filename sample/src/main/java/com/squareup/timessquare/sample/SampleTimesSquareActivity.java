@@ -246,13 +246,4 @@ public class SampleTimesSquareActivity extends Activity implements MonthView.Lis
   public void handleClick(MonthCellDescriptor cell) {
     Toast.makeText(getApplicationContext(), "oneClick", Toast.LENGTH_SHORT).show();
   }
-
-  @Override
-  public void handleLongClick(MonthCellDescriptor cell) {
-    Toast.makeText(getApplicationContext(), "longClick", Toast.LENGTH_SHORT).show();
-
-    Date clickedDate = cell.getDate();
-
-    boolean wasSelected = calendar.doSelectDate(clickedDate, cell);
-  }
 }

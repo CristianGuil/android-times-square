@@ -557,30 +557,6 @@ public class CalendarPickerView extends ListView {
 
       delegateClickListener.handleClick(cell);
     }
-    @Override public void handleLongClick(MonthCellDescriptor cell) {
-
-      delegateClickListener.handleLongClick(cell);
-//      Date clickedDate = cell.getDate();
-//
-//      if (cellClickInterceptor != null && cellClickInterceptor.onCellClicked(clickedDate)) {
-//        return;
-//      }
-//      if (!betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate)) {
-//        if (invalidDateListener != null) {
-//          invalidDateListener.onInvalidDateSelected(clickedDate);
-//        }
-//      } else {
-//        boolean wasSelected = doSelectDate(clickedDate, cell);
-//
-//        if (dateListener != null) {
-//          if (wasSelected) {
-//            dateListener.onDateSelected(clickedDate);
-//          } else {
-//            dateListener.onDateUnselected(clickedDate);
-//          }
-//        }
-//      }
-    }
   }
 
   /**
