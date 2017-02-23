@@ -16,7 +16,7 @@
     <color android:color="@color/calendar_inactive_month_bg"/>
   </item>
   <item app:tsquare_state_highlighted="true">
-    <color android:color="@color/calendar_text_unselectable"/>
+    <color android:color="@android:color/white"/>
   </item>
   <item app:tsquare_state_today="true">
     <color android:color="@color/calendar_text_active"/>

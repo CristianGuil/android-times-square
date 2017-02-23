@@ -32,6 +32,7 @@ public class CalendarGridView extends ViewGroup {
   public CalendarGridView(Context context, AttributeSet attrs) {
     super(context, attrs);
     dividerPaint.setColor(getResources().getColor(R.color.calendar_divider));
+    dividerPaint.setStrokeWidth(8);
   }
 
   public void setDividerColor(int color) {
@@ -83,6 +84,7 @@ public class CalendarGridView extends ViewGroup {
     final ViewGroup row = (ViewGroup) getChildAt(1);
     int top = row.getTop();
     int bottom = getBottom();
+
     // Left side border.
     final int left = row.getChildAt(0).getLeft() + getLeft();
     canvas.drawLine(left + FLOAT_FUDGE, top, left + FLOAT_FUDGE, bottom, dividerPaint);
