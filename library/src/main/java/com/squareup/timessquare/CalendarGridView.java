@@ -100,7 +100,11 @@ public class CalendarGridView extends ViewGroup {
     final boolean retVal = super.drawChild(canvas, child, drawingTime);
     // Draw a bottom border.
     final int bottom = child.getBottom() - 1;
-    canvas.drawLine(child.getLeft(), bottom, child.getRight() - 2, bottom, dividerPaint);
+    canvas.drawLine(child.getLeft(), bottom, child.getRight(), bottom, dividerPaint);
+
+    // Draw a top border.
+    final int top = child.getTop();
+    canvas.drawLine(child.getLeft(), top, child.getRight(), top, dividerPaint);
     return retVal;
   }
 
