@@ -32,7 +32,7 @@ public class CalendarGridView extends ViewGroup {
   public CalendarGridView(Context context, AttributeSet attrs) {
     super(context, attrs);
     dividerPaint.setColor(getResources().getColor(R.color.calendar_divider));
-    dividerPaint.setStrokeWidth(8);
+    dividerPaint.setStrokeWidth(4);
   }
 
   public void setDividerColor(int color) {
