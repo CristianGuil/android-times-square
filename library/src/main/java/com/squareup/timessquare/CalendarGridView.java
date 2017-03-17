@@ -26,28 +26,19 @@ public class CalendarGridView extends ViewGroup {
   private static final float FLOAT_FUDGE = 0.5f;
 
   private final Paint dividerPaint = new Paint();
-  private final Paint dividerPaint2 = new Paint();
-  private final Paint dividerPaint3 = new Paint();
   private int oldWidthMeasureSize;
   private int oldNumRows;
 
   public CalendarGridView(Context context, AttributeSet attrs) {
     super(context, attrs);
     dividerPaint.setColor(getResources().getColor(R.color.calendar_divider));
-    dividerPaint2.setColor(getResources().getColor(R.color.calendar_divider));
-    dividerPaint3.setColor(getResources().getColor(R.color.calendar_divider));
     float scale = getResources().getDisplayMetrics().density;
     int width = (int) (1*scale + 0.5f);
-    int width2 = (int) (2*scale + 0.5f);
     dividerPaint.setStrokeWidth(width);
-    dividerPaint2.setStrokeWidth(width2);
-    dividerPaint3.setStrokeWidth(width);
   }
 
   public void setDividerColor(int color) {
-    dividerPaint.setColor(color);
-    dividerPaint2.setColor(color);
-    dividerPaint3.setColor(color);
+//    dividerPaint.setColor(color);
   }
 
   public void setDayViewAdapter(DayViewAdapter adapter) {
@@ -100,13 +91,13 @@ public class CalendarGridView extends ViewGroup {
     final int left = row.getChildAt(0).getLeft() + getLeft();
     for (int c = 0; c < 7; c++) {
       float x = left + row.getChildAt(c).getLeft() - FLOAT_FUDGE;
-      canvas.drawLine(x + FLOAT_FUDGE, top, x + FLOAT_FUDGE, bottom, dividerPaint2);
+      canvas.drawLine(x + FLOAT_FUDGE, top, x + FLOAT_FUDGE, bottom, dividerPaint);
     }
 
     // Each cell's right-side border.
     for (int c = 0; c < 7; c++) {
       float x = left + row.getChildAt(c).getRight() - 1;
-        canvas.drawLine(x, top, x, bottom, dividerPaint2);
+        canvas.drawLine(x, top, x, bottom, dividerPaint);
     }
   }
 
@@ -114,11 +105,11 @@ public class CalendarGridView extends ViewGroup {
     final boolean retVal = super.drawChild(canvas, child, drawingTime);
     // Draw a bottom border.
     final int bottom = child.getBottom() - 1;
-    canvas.drawLine(child.getLeft(), bottom, child.getRight(), bottom, dividerPaint2);
+    canvas.drawLine(child.getLeft(), bottom, child.getRight(), bottom, dividerPaint);
 
     // Draw a top border.
     final int top = child.getTop();
-    canvas.drawLine(child.getLeft(), top, child.getRight(), top, dividerPaint2);
+    canvas.drawLine(child.getLeft(), top, child.getRight(), top, dividerPaint);
 
     return retVal;
   }
