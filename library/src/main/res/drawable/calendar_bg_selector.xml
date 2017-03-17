@@ -18,8 +18,18 @@
   <item app:tsquare_state_highlighted="true">
     <color android:color="@color/calendar_text_unselectable"/>
   </item>
-  <item app:tsquare_state_today="true">
-    <color android:color="@color/calendar_text_active"/>
+  <item app:tsquare_state_today="true"
+      android:bottom="0dp"
+      android:left="0dp"
+      android:right="0dp"
+      android:top="0dp">
+    <shape android:shape="rectangle" >
+      <stroke
+          android:width="2dp"
+          android:color="#0091c6" />
+
+      <solid android:color="@android:color/white" />
+    </shape>
   </item>
   <item>
     <color android:color="@android:color/white"/>
