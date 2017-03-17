@@ -46,8 +46,8 @@ public class CalendarGridView extends ViewGroup {
 
   public void setDividerColor(int color) {
     dividerPaint.setColor(color);
-    dividerPaint2.setColor(color);
-    dividerPaint3.setColor(color);
+//    dividerPaint2.setColor(color);
+//    dividerPaint3.setColor(color);
   }
 
   public void setDayViewAdapter(DayViewAdapter adapter) {
@@ -98,24 +98,28 @@ public class CalendarGridView extends ViewGroup {
 
     // Left side border.
     final int left = row.getChildAt(0).getLeft() + getLeft();
-    canvas.drawLine(left + FLOAT_FUDGE, top, left + FLOAT_FUDGE, bottom, dividerPaint2);
+    for (int c = 0; c < 7; c++) {
+      float x = left + row.getChildAt(c).getLeft() - FLOAT_FUDGE;
+      canvas.drawLine(x + FLOAT_FUDGE, top, x + FLOAT_FUDGE, bottom, dividerPaint2);
+    }
 
     // Each cell's right-side border.
     for (int c = 0; c < 7; c++) {
-      float x = left + row.getChildAt(c).getRight() - FLOAT_FUDGE;
-        canvas.drawLine(x, top, x, bottom, dividerPaint3);
+      float x = left + row.getChildAt(c).getRight() - 1;
+        canvas.drawLine(x, top, x, bottom, dividerPaint2);
     }
   }
 
   @Override protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
     final boolean retVal = super.drawChild(canvas, child, drawingTime);
     // Draw a bottom border.
-    final int bottom = child.getBottom();
+    final int bottom = child.getBottom() - 1;
     canvas.drawLine(child.getLeft(), bottom, child.getRight(), bottom, dividerPaint2);
 
     // Draw a top border.
-//    final int top = child.getTop();
-//    canvas.drawLine(child.getLeft(), top, child.getRight(), top, dividerPaint);
+    final int top = child.getTop();
+    canvas.drawLine(child.getLeft(), top, child.getRight(), top, dividerPaint2);
+
     return retVal;
   }
 
