@@ -38,7 +38,7 @@ public class CalendarGridView extends ViewGroup {
   }
 
   public void setDividerColor(int color) {
-    dividerPaint.setColor(color);
+//    dividerPaint.setColor(color);
   }
 
   public void setDayViewAdapter(DayViewAdapter adapter) {
@@ -96,7 +96,7 @@ public class CalendarGridView extends ViewGroup {
 
     // Each cell's right-side border.
     for (int c = 0; c < 7; c++) {
-      float x = left + row.getChildAt(c).getRight() - 1;
+      float x = left + row.getChildAt(c).getRight() - FLOAT_FUDGE;
         canvas.drawLine(x, top, x, bottom, dividerPaint);
     }
   }
@@ -104,7 +104,7 @@ public class CalendarGridView extends ViewGroup {
   @Override protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
     final boolean retVal = super.drawChild(canvas, child, drawingTime);
     // Draw a bottom border.
-    final int bottom = child.getBottom() - 1;
+    final float bottom = child.getBottom() - FLOAT_FUDGE;
     canvas.drawLine(child.getLeft(), bottom, child.getRight(), bottom, dividerPaint);
 
     // Draw a top border.
