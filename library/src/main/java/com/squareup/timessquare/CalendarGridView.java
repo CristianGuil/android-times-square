@@ -46,8 +46,8 @@ public class CalendarGridView extends ViewGroup {
 
   public void setDividerColor(int color) {
     dividerPaint.setColor(color);
-//    dividerPaint2.setColor(color);
-//    dividerPaint3.setColor(color);
+    dividerPaint2.setColor(color);
+    dividerPaint3.setColor(color);
   }
 
   public void setDayViewAdapter(DayViewAdapter adapter) {
